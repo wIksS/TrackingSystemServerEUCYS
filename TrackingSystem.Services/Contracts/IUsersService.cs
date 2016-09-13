@@ -25,5 +25,9 @@
         /// <returns>IEnumerable<DistanceModel></returns>
         IEnumerable<DistanceModel> CalculateDistance(ApplicationUser user);
 
+
+        IEnumerable<ApplicationUser> GetGroupAvaiableUsers();
+
+        void SaveChanges();
     }
 }

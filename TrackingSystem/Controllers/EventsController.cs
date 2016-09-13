@@ -10,17 +10,36 @@
     using TrackingSystem.Models;
     using TrackingSystem.Services.Contracts;
     using TrackingSystem.ViewModels;
+    using System.Linq;
 
     [System.Web.Http.Authorize]
     public class EventsController : BaseController
     {
         private readonly IEventsService events;
-        private readonly ITeachersService teachers;
+        private readonly IUsersService users;
 
-        public EventsController(IEventsService eventsService, ITeachersService teachersService)
+        public EventsController(IEventsService eventsService, IUsersService usersService)
         {
             this.events = eventsService;
-            this.teachers = teachersService;
+            this.users = usersService;
+        }
+
+        [HttpGet]
+        public EventViewModel GetEvent(string id)
+        {
+            EventViewModel eventVM = null;
+            ApplicationUser user = users.GetByUserName(id);
+            if (user != null)
+            {
+                var eventDB = user.Events.FirstOrDefault();
+                if (eventDB != null)
+                {
+                    eventVM = Mapper.Map<EventViewModel>(eventDB);
+
+                }
+            }
+
+            return eventVM;
         }
 
         /// <summary>
@@ -36,12 +55,13 @@
                 throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.NotFound, ModelState));
             }
 
-            var teacherId = User.Identity.GetUserId();
+            var userId = User.Identity.GetUserId();
             var dbEvent = Mapper.Map<Event>(eventViewModel);
-            events.Add(teacherId, dbEvent);
-
-            var teacher = teachers.Get(teacherId);
-            SendEvent(eventViewModel, teacher.GroupId.ToString(), teacher.UserName);
+            events.Add(userId, dbEvent);
+            ApplicationUser user = users.Get(userId);
+            user.Events.Add(dbEvent);
+            users.SaveChanges();
+            //SendEvent(eventViewModel, teacher.GroupId.ToString(), teacher.UserName);
 
             return Ok();
         }

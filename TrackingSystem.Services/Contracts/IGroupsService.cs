@@ -16,7 +16,7 @@
         /// Removes the student from the group
         /// </summary>
         /// <param name="user">the User</param>
-        void RemoveFromGroup(Student user);
+        void RemoveFromGroup(ApplicationUser user);
 
         /// <summary>
         /// Creates the group for an user

@@ -10,16 +10,6 @@
             get;
         }
 
-        IRepository<Teacher> Teachers
-        {
-            get;
-        }
-
-        IRepository<Student> Students
-        {
-            get;
-        }
-
         IRepository<Group> Groups
         {
             get;

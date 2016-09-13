@@ -16,7 +16,7 @@
 
         public Group ChangeDistance(int newDistance, string userId)
         {
-            ApplicationUser user = data.Teachers.Find(userId);
+            ApplicationUser user = data.Users.Find(userId);
             var group = user.Group;
 
             group.MaxDistance = newDistance;
@@ -25,15 +25,15 @@
             return group;
         }
 
-        public void RemoveFromGroup(Student user)
+        public void RemoveFromGroup(ApplicationUser user)
         {
             var group = user.Group;
 
             user.Group = null;
             user.GroupId = null;
 
-            group.Students.Remove(user);
-            data.Students.SaveChanges();
+            group.Users.Remove(user);
+            data.Users.SaveChanges();
         }
 
         public Group CreateGroup(ApplicationUser user)
@@ -41,8 +41,8 @@
             var group = new Group()
             {
                 MaxDistance = AppConstants.MaxDistance,
-                Teacher = user as Teacher,
-                TeacherId = user.Id
+                Leader = user,
+                LeaderId = user.Id
             };
 
             this.data.Groups.Add(group);

@@ -6,7 +6,7 @@
     using System.Security.Claims;
     using System.Threading.Tasks;
 
-    public abstract class ApplicationUser : IdentityUser
+    public class ApplicationUser : IdentityUser
     {
         private ICollection<Coordinate> coordinates;
         private ICollection<Event> events;
@@ -38,6 +38,12 @@
         }
 
         public bool? IsInExcursion
+        {
+            get;
+            set;
+        }
+
+        public bool? IsLeader
         {
             get;
             set;

@@ -17,19 +17,7 @@
         {
             get;
             set;
-        }
-
-        IDbSet<Student> Students
-        {
-            get;
-            set;
-        }
-
-        IDbSet<Teacher> Teachers
-        {
-            get;
-            set;
-        }
+        }        
 
         IDbSet<Group> Groups
         {

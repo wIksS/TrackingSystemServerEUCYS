@@ -86,7 +86,7 @@ namespace TrackingSystem.App_Start
                 .To<HttpCacheService>()
                 .InRequestScope();
 
-            kernel.Bind(b => b.From(Assembly.GetAssembly(typeof(StudentsService)))
+            kernel.Bind(b => b.From(Assembly.GetAssembly(typeof(UsersService)))
                .SelectAllClasses()
                .BindDefaultInterface());
         }        

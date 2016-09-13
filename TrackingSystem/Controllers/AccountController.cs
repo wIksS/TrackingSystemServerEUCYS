@@ -357,17 +357,12 @@
 
             ApplicationUser user;
             var isTeacher = false;
-            user = new Student() { UserName = model.Email, Email = model.Email, Phone = model.Phone };
+            user = new ApplicationUser() { UserName = model.Email, Email = model.Email, Phone = model.Phone };
             IdentityResult result = await UserManager.CreateAsync(user, model.Password);
 
             if (!result.Succeeded)
             {
                 return GetErrorResult(result);
-            }
-
-            if (isTeacher)
-            {
-                this.UserManager.AddToRole(user.Id, "Teacher");
             }
 
             return Ok();
@@ -455,42 +450,42 @@
             this.UserManager.AddToRole(user.Id, roleName);
 
             // this is a hack for changing the whole role of an user. It is needed because it is needed to cast a derrived class to derrived class, which is impossible and to do that i ahve to delete the entities
-            if (userDb is Student && roleName == "Teacher")
-            {
-                var coordinates = user.Coordinates;
-                var coordinatesList = coordinates.ToList();
-                for (int i = 0; i < coordinatesList.Count; i++)
-                {
-                    coordinatesList[i].User = null;
-                }
+            //if (userDb is Student && roleName == "Teacher")
+            //{
+            //    var coordinates = user.Coordinates;
+            //    var coordinatesList = coordinates.ToList();
+            //    for (int i = 0; i < coordinatesList.Count; i++)
+            //    {
+            //        coordinatesList[i].User = null;
+            //    }
 
-                var group = user.Group;
-                var image = user.ImageUrl;
-                user.Group = null;
+            //    var group = user.Group;
+            //    var image = user.ImageUrl;
+            //    user.Group = null;
 
-                this.UserManager.Delete(user);
+            //    this.UserManager.Delete(user);
 
-                var curTteacher = new Teacher() { UserName = user.Email, Email = user.Email, PasswordHash = user.PasswordHash };
+            //    var curTteacher = new Teacher() { UserName = user.Email, Email = user.Email, PasswordHash = user.PasswordHash };
 
-                curTteacher.Coordinates = coordinates;
-                curTteacher.ImageUrl = image;
+            //    curTteacher.Coordinates = coordinates;
+            //    curTteacher.ImageUrl = image;
 
-                if (group != null)
-                {
-                    curTteacher.Group = group;
-                    curTteacher.GroupId = group.Id;
-                }
+            //    if (group != null)
+            //    {
+            //        curTteacher.Group = group;
+            //        curTteacher.GroupId = group.Id;
+            //    }
 
-                UserManager.Create(curTteacher);
-                UserManager.AddToRole(curTteacher.Id, "Teacher");
+            //    UserManager.Create(curTteacher);
+            //    UserManager.AddToRole(curTteacher.Id, "Teacher");
 
-                for (int i = 0; i < coordinatesList.Count; i++)
-                {
-                    coordinatesList[i].User = curTteacher;
-                }
+                //for (int i = 0; i < coordinatesList.Count; i++)
+                //{
+                //    coordinatesList[i].User = curTteacher;
+                //}
 
-                Data.Coordinates.SaveChanges();
-            }
+             //   Data.Coordinates.SaveChanges();
+            //}
 
             return Ok("Role created successfully !");
         }
@@ -507,40 +502,40 @@
             }
 
             this.UserManager.RemoveFromRole(user.Id, roleName);
-            if (user is Teacher && roleName == "Teacher")
-            {
-                var coordinates = user.Coordinates;
-                var coordinatesList = coordinates.ToList();
-                for (int i = 0; i < coordinatesList.Count; i++)
-                {
-                    coordinatesList[i].User = null;
-                }
+            //if (user is Teacher && roleName == "Teacher")
+            //{
+            //    var coordinates = user.Coordinates;
+            //    var coordinatesList = coordinates.ToList();
+            //    for (int i = 0; i < coordinatesList.Count; i++)
+            //    {
+            //        coordinatesList[i].User = null;
+            //    }
 
-                var group = user.Group;
-                var image = user.ImageUrl;
-                user.Group = null;
+            //    var group = user.Group;
+            //    var image = user.ImageUrl;
+            //    user.Group = null;
 
-                this.UserManager.Delete(user);
+            //    this.UserManager.Delete(user);
 
-                var curStudent = new Student() { UserName = user.Email, Email = user.Email, PasswordHash = user.PasswordHash };
+            //    var curStudent = new Student() { UserName = user.Email, Email = user.Email, PasswordHash = user.PasswordHash };
 
-                curStudent.Coordinates = coordinates;
-                curStudent.ImageUrl = image;
-                if (group != null)
-                {
-                    curStudent.Group = group;
-                    curStudent.GroupId = group.Id;
-                }
+            //    curStudent.Coordinates = coordinates;
+            //    curStudent.ImageUrl = image;
+            //    if (group != null)
+            //    {
+            //        curStudent.Group = group;
+            //        curStudent.GroupId = group.Id;
+            //    }
 
-                UserManager.Create(curStudent);
-                for (int i = 0; i < coordinatesList.Count; i++)
-                {
-                    coordinatesList[i].User = curStudent;
-                }
+            //    UserManager.Create(curStudent);
+            //    for (int i = 0; i < coordinatesList.Count; i++)
+            //    {
+            //        coordinatesList[i].User = curStudent;
+            //    }
 
-                Data.Coordinates.SaveChanges();
+               // Data.Coordinates.SaveChanges();
 
-            }
+            //}
 
             return Ok("Role deleted successfully !");
         }

@@ -4,11 +4,11 @@
 
     public class Group
     {
-        private ICollection<Student> students;
+        private ICollection<ApplicationUser> users;
 
         public Group()
         {
-            this.Students = new HashSet<Student>();
+            this.Users = new HashSet<ApplicationUser>();
         }
 
         public int Id
@@ -17,25 +17,25 @@
             set;
         }
 
-        public virtual ICollection<Student> Students
+        public virtual ICollection<ApplicationUser> Users
         {
             get
             {
-                return this.students;
+                return this.users;
             }
             set
             {
-                this.students = value;
+                this.users = value;
             }
         }
 
-        public virtual Teacher Teacher
+        public virtual ApplicationUser Leader
         {
             get;
             set;
         }
 
-        public string TeacherId
+        public string LeaderId
         {
             get;
             set;

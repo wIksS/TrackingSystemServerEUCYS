@@ -30,22 +30,6 @@
             }
         }
 
-        public IRepository<Teacher> Teachers
-        {
-            get
-            {
-                return this.GetRepository<Teacher>();
-            }
-        }
-
-        public IRepository<Student> Students
-        {
-            get
-            {
-                return this.GetRepository<Student>();
-            }
-        }
-
         public IRepository<Group> Groups
         {
             get

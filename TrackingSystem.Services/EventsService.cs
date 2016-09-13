@@ -13,20 +13,20 @@
             this.data = data;
         }
 
-        public void Add(string teacherId, Event eventModel)
+        public void Add(string leaderId, Event eventModel)
         {
-            Teacher teacher = data.Teachers.Find(teacherId);
+            ApplicationUser leader = data.Users.Find(leaderId);
 
             data.Events.Add(eventModel);
             data.Events.SaveChanges();
 
-            var group = teacher.Group;
-            foreach (var student in group.Students)
+            var group = leader.Group;
+            foreach (var user in group.Users)
             {
-                student.Events.Add(eventModel);
+                user.Events.Add(eventModel);
             }
 
-            data.Students.SaveChanges();
+            data.Users.SaveChanges();
         }
     }
 }

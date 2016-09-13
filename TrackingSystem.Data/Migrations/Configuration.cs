@@ -45,7 +45,7 @@ namespace TrackingSystem.Data.Migrations
             {
                 var store = new UserStore<ApplicationUser>(context);
                 var manager = new UserManager<ApplicationUser>(store);
-                var user = new Teacher
+                var user = new ApplicationUser
                 {
                     UserName = "Admin@g.c",
                     Email = "Admin@g.c"
