@@ -11,6 +11,7 @@
     using TrackingSystem.Services.Contracts;
     using TrackingSystem.ViewModels;
     using System.Linq;
+    using System;
 
     [System.Web.Http.Authorize]
     public class EventsController : BaseController
@@ -57,10 +58,9 @@
 
             var userId = User.Identity.GetUserId();
             var dbEvent = Mapper.Map<Event>(eventViewModel);
+            dbEvent.Date = DateTime.Now;
+
             events.Add(userId, dbEvent);
-            ApplicationUser user = users.Get(userId);
-            user.Events.Add(dbEvent);
-            users.SaveChanges();
             //SendEvent(eventViewModel, teacher.GroupId.ToString(), teacher.UserName);
 
             return Ok();
