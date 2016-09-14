@@ -40,7 +40,7 @@ namespace TrackingSystem.Controllers
         [HttpPost]
         public IHttpActionResult AddStudentToGroup(string id)
         {
-            string leaderId = User.Identity.GetUserId();
+            string leaderId = User.Identity.GetUserId();            
             ApplicationUser leader = users.Get(leaderId);
             ApplicationUser user = users.GetByUserName(id);
             if (leader == null || user == null)
