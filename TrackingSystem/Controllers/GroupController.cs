@@ -55,6 +55,7 @@
             {
                 userId = User.Identity.GetUserId();
             }
+            var userIdCorrect = User.Identity.GetUserId();
 
             ApplicationUser user = users.Get(userId);
             if (user == null || user.Group == null)
@@ -62,8 +63,12 @@
                 return null;
             }
 
-            var usersVM = user.Group.Users.Cast<ApplicationUser>().ToList();
+            var usersVM = user.Group.Users.Cast<ApplicationUser>().Where(u => u.Id != userIdCorrect).ToList();
             var usersViewModel = Mapper.Map<List<ApplicationUser>, List<ApplicationUserViewModel>>(usersVM);
+            if (user.Group.LeaderId != user.Id)
+            {
+                usersViewModel.Add(Mapper.Map<ApplicationUserViewModel>(user.Group.Leader));
+            }
 
             return usersViewModel;
         }
