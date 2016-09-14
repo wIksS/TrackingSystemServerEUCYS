@@ -37,6 +37,9 @@
 
             if (group.Users.Count == 0)
             {
+                ApplicationUser leader = group.Leader;
+                leader.GroupId = null;
+                leader.Group = null;
                 data.Groups.Delete(group);
                 data.Groups.SaveChanges();
             }
