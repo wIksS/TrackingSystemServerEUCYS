@@ -34,6 +34,12 @@
 
             group.Users.Remove(user);
             data.Users.SaveChanges();
+
+            if (group.Users.Count == 0)
+            {
+                data.Groups.Delete(group);
+                data.Groups.SaveChanges();
+            }
         }
 
         public Group CreateGroup(ApplicationUser user)
